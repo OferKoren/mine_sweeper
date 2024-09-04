@@ -12,13 +12,26 @@
     <div class="game">
         <div class="control-panel">
             <button onclick="onToggleHide()">hide/unhide</button>
+            <button onclick="onSetLevel(1)">Beginner</button>
+            <button onclick="onSetLevel(2)">Medium</button>
+            <button onclick="onSetLevel(3)">Expert</button>
         </div>
 
         <div class="board">
             <table class="board-table">
 
             </table>
+            <div class="timer">
+                0
+            </div>
         </div>
+    </div>
+    <div class="modal">
+        <span class="win hidden">you win 😊</span>
+        <br>
+        <span class="lose hidden">you lose 😭</span>
+        <br>
+        <button onclick="onInit()">🔁</button>
     </div>
     <div class="footer">Ofer Koren</div>
     <script src="js/utils.js"></script>
