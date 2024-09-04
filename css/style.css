@@ -28,16 +28,32 @@ body {
 }
 
 .board-table {
+    margin: 10px;
     width: 50%;
     height: 80%;
+    border-spacing: 0;
 }
 
 .board-table td {
-    border: 1px solid black;
+    font-size: 0.60em;
+    background-color: lightgray;
+
     min-width: 30px;
-    min-height: 30px;
+    min-height: 16px;
     height: 30px;
     text-align: center;
+    cursor: pointer;
+}
+
+.board-table td.close {
+    border-top: 4px solid rgb(255, 255, 255);
+    border-right: 4px solid rgb(135, 135, 135);
+    border-bottom: 4px solid rgb(135, 135, 135);
+    border-left: 4px solid rgb(255, 255, 255);
+}
+
+.board-table td.open {
+    border: 1px solid rgb(135, 135, 135)
 }
 
 .board-table span {

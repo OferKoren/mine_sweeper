@@ -14,8 +14,28 @@ function getRandomInt(min, max) {
 }
 
 function onToggleHide() {
-    const elHidden = document.querySelectorAll('.board-table td span')
+    const elHidden = document.querySelectorAll('.board-table td')
     elHidden.forEach(element => {
         element.classList.toggle("hidden")
     });
+}
+
+function toggleModal() {
+    const elModal = document.querySelector('.modal')
+    elModal.classList.toggle("hidden")
+}
+
+function hideModal() {
+    const elModal = document.querySelector('.modal')
+    const elWin = document.querySelector('.win')
+    const elLose = document.querySelector('.lose')
+
+    elModal.classList.add("hidden")
+    elWin.classList.add("hidden")
+    elLose.classList.add("hidden")
+}
+
+function showModal() {
+    const elModal = document.querySelector('.modal')
+    elModal.classList.remove("hidden")
 }
