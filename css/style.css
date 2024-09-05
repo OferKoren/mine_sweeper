@@ -4,7 +4,7 @@
 
 body {
     text-align: center;
-    height: 95vh;
+    /* height: 95vh; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,19 +16,28 @@ body {
 
 .game {
     background-color: beige;
-    width: 80%;
-    height: 60%;
+    /* width: 80%;
+    height: 60%; */
+    width: 800px;
+    min-height: 300px;
     border: 2px black solid;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 10px;
 
 }
 
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
 .board-table {
-    margin: 10px;
+
     width: 50%;
     height: 80%;
     border-spacing: 0;
@@ -68,9 +77,38 @@ body {
 
     background-color: lightblue;
     width: 100%;
-    height: 6%;
+    height: 20px;
     position: fixed;
     bottom: 0;
     left: 0;
 
+}
+
+.hint {
+    min-width: 20px;
+    min-width: 20px;
+    max-width: 30px;
+    max-width: 30px;
+}
+
+/* contrl-panel1 is hearts and hints */
+/* .control-panel1 td {} */
+
+.hint {
+    cursor: pointer;
+}
+
+.used {
+    visibility: hidden;
+    cursor: default;
+    pointer-events: none;
+}
+
+.buttons button {
+    height: 30px;
+    cursor: pointer;
+}
+
+.safe-cell {
+    background-color: cyan !important;
 }

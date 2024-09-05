@@ -8,13 +8,54 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body onload="onInit()">
+<body onload="onInit() ">
     <div class="game">
         <div class="control-panel">
-            <button onclick="onToggleHide()">hide/unhide</button>
-            <button onclick="onSetLevel(1)">Beginner</button>
-            <button onclick="onSetLevel(2)">Medium</button>
-            <button onclick="onSetLevel(3)">Expert</button>
+            <table class="control-panel1">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="lives">
+                                <span class="live live1">❤️</span>
+                                <span class="live live2">❤️</span>
+                                <span class="live live3">❤️</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)" />
+                                <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)" />
+                                <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- <button onclick="onToggleHide()">hide/unhide</button> -->
+            <div>
+                <button onclick="onSetLevel(1)">🐣</button>
+                <button onclick="onSetLevel(2)">🐥</button>
+                <button onclick="onSetLevel(3)">🦅</button>
+
+            </div>
+            <div class="buttons">
+                <button class="safe" onclick="onSafe()">🔦</button>
+                <button class="restart" onclick="onInit()">😁</button>
+                <button class=undo onclick="onUndo()">⬅️</button>
+            </div>
+            <div>
+                <span>
+                    🔦:
+                    <span class="safe-count">
+                        3
+                    </span>
+                    |
+                </span>
+                <span>🚩:
+                    <span class="mark-count"></span>
+                </span>
+            </div>
         </div>
 
         <div class="board">
@@ -25,15 +66,29 @@
                 0
             </div>
         </div>
+        <div class="scoreboard">
+            <table>
+                <thead>
+                    scoreboard
+                    <th>name</th>
+                    <th>time</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="modal">
+            <span class="win hidden">you win 😊</span>
+            <br>
+            <span class="lose hidden">you lose 😭</span>
+            <br>
+            <button onclick="onInit()">🔁</button>
+        </div>
     </div>
-    <div class="modal">
-        <span class="win hidden">you win 😊</span>
-        <br>
-        <span class="lose hidden">you lose 😭</span>
-        <br>
-        <button onclick="onInit()">🔁</button>
-    </div>
+
     <div class="footer">Ofer Koren</div>
+    <script src="js/bonus.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/main.js"></script>
 </body>

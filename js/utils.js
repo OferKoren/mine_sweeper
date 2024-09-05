@@ -1,3 +1,5 @@
+
+'use strict'
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -38,4 +40,39 @@ function hideModal() {
 function showModal() {
     const elModal = document.querySelector('.modal')
     elModal.classList.remove("hidden")
+}
+
+function copyMat(board) {
+    var copy = []
+    for (var i = 0; i < board.length; i++) {
+        copy[i] = []
+        for (var j = 0; j < board[0].length; j++) {
+            copy[i][j] = { ...board[i][j] }
+        }
+    }
+    return copy
+}
+
+function GenericNegsLoop(rowIdx, colIdx) {
+    for (var i = rowIdx - 1; i <= rowIdx + 1; i++) {
+        if (i < 0 || i > board.length - 1) continue
+        for (var j = colIdx - 1; j <= colIdx + 1; j++) {
+            if (i === rowIdx && j === colIdx) continue
+            if (j < 0 || j > board[0].length - 1) continue
+            if (board[i][j].isMine) return
+        }
+    }
+}
+
+function getEmptyPos(board) {
+    var emptyPoss = []
+    for (var i = 0; i < board.length; i++) {
+        for (var j = 0; j < board[0].length; j++) {
+            if (!board[i][j].isMine && !board[i][j].isShown) {
+                emptyPoss.push({ i, j })
+            }
+        }
+    }
+    var randIdx = getRandomInt(0, emptyPoss.length)
+    return emptyPoss[randIdx]
 }
