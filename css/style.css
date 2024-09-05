@@ -3,48 +3,86 @@
 }
 
 body {
+    background: linear-gradient(0deg, #00ff88 0%, #153c79 97%);
+    color: white;
+    font-family: 'Audiowide', sans-serif;
     text-align: center;
-    /* height: 95vh; */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    /* border: 2px black solid; */
-    /* margin: auto */
-    /* overflow: hidden; */
+    min-height: 95vh;
+    min-width: 100vw;
 }
 
 .game {
-    background-color: beige;
-    /* width: 80%;
-    height: 60%; */
-    width: 800px;
-    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: start;
+    gap: 1vw;
+
+}
+
+span {
+    font-size: 1.2em
+}
+
+.game-board {
+
+    background-color: rgb(253, 251, 212);
+    color: black;
+    min-width: 500px;
+    min-height: 500px;
     border: 2px black solid;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    gap: 10px;
+    gap: 3px;
+    padding-top: 5px;
+    box-shadow: 3px 3px 6px;
+}
 
+button {
+    font-size: 30px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255, 0.5);
+    box-shadow: 2px 2px 4px;
+    transition: ease 0.3s;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: rgb(255, 255, 255, .8);
+    box-shadow: 3px 3px 5px;
+
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px
+}
+
+.inner-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
 }
 
 .control-panel {
     display: flex;
     flex-direction: column;
-    gap: 5px
+
 }
 
 .board-table {
 
-    width: 50%;
-    height: 80%;
-    border-spacing: 0;
+    /* width: 50%;
+    height: 80%; */
+    border-spacing: 2px;
 }
 
 .board-table td {
-    font-size: 0.60em;
+    font-size: 0.76em;
     background-color: lightgray;
 
     min-width: 30px;
@@ -52,6 +90,7 @@ body {
     height: 30px;
     text-align: center;
     cursor: pointer;
+
 }
 
 .board-table td.close {
@@ -77,10 +116,11 @@ body {
 
     background-color: lightblue;
     width: 100%;
-    height: 20px;
-    position: fixed;
+    height: 40px;
+    position: absolute;
     bottom: 0;
     left: 0;
+    font-size: 2em;
 
 }
 
@@ -105,10 +145,53 @@ body {
 }
 
 .buttons button {
-    height: 30px;
+    font-size: 1.5em;
+    max-width: 50px;
     cursor: pointer;
 }
 
 .safe-cell {
     background-color: cyan !important;
+}
+
+.scoreboard {
+    position: absolute;
+    right: 20px;
+    font-size: 1.5em;
+    background-color: rgb(253, 251, 212);
+    border-radius: 10px;
+    color: black;
+    /* //min-height: 90vh; */
+    max-height: 90vh;
+}
+
+.scoreboard table {
+    border-spacing: 40px 0px;
+}
+
+.scoreboard span {
+    font-size: 1.5em;
+}
+
+.scoreboard th {
+    font-size: 1.2em;
+    font-weight: normal;
+    text-decoration: underline;
+}
+
+.scoreboard td {
+    font-size: 0.8em;
+}
+
+.darkmode {
+    background-color: rgb(14, 14, 93) !important;
+    color: rgb(145, 145, 145);
+}
+
+.invert {
+    filter: invert(1) !important;
+}
+
+.mega-hint {
+    background-color: rgba(10, 180, 10, 0.197) !important
 }

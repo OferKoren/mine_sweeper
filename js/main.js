@@ -8,6 +8,9 @@ var gGame = {
     lives: 3,
     isHintMode: false,
     safe: 3,
+    darkmode: false,
+    customMode: false,
+    megaHint: false
 }
 const gLevel = {
     LEVEL: 'beginner',
@@ -20,6 +23,7 @@ const EMPTY = ''
 const WIN = '😎'
 const LOSE = '😭'
 const REGULAR = '😁'
+
 var gIntervalTimer
 
 
@@ -27,10 +31,9 @@ function onInit() {
     // alert("lets go")
 
     reset()
-    hideModal()
+    // hideModal()
     BuildBoard()
-    //*put the blank board in the undo array
-    gSaveMoves.push(copyMat(gBoard))
+
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
 
@@ -123,6 +126,12 @@ function renderBoard(board) {
 //called when a cell is clicked
 function onCellClicked(elCell, i, j) {
     if (!gGame.isOn && gGame.lives > 0) {
+        //* only enter this part if in manual mode
+        if (gGame.customMode) {
+            addCustomMine(gBoard, i, j)
+            return
+        }
+        //* initiate game regularly after first click
         gGame.isOn = true
         gBoard[i][j].isMine = true
         addMines(gBoard)
@@ -133,8 +142,14 @@ function onCellClicked(elCell, i, j) {
     }
     if (gGame.isOn) {
         //  console.log(`i:${i} j:${j}`)
+        //* check if game is on hintMode
         if (gGame.isHintMode) {
             getHint(gBoard, i, j)
+            return
+        }
+        //*check if game is on mega Hint
+        if (gGame.megaHint) {
+            megaHint(gBoard, elCell, i, j)
             return
         }
         //* cant click on a marked  or shown cell 
@@ -148,16 +163,19 @@ function onCellClicked(elCell, i, j) {
                 if (gGame.lives > 0)
                     return
             }
-            showModal()
+            /* showModal()
+            const elLose = document.querySelector('.lose')
+            elLose.classList.remove('hidden') */
             showMines(gBoard)
             gGame.isOn = false
-            const elLose = document.querySelector('.lose')
-            elLose.classList.remove('hidden')
+
             renderBoard(gBoard)
             const elRestart = document.querySelector('.restart')
             elRestart.innerHTML = LOSE
             return
         }
+        //*save move importent before updateing the modal
+        gSaveMoves.push(copyMat(gBoard))
 
         //*update model 
         gBoard[i][j].isShown = true
@@ -166,8 +184,7 @@ function onCellClicked(elCell, i, j) {
         renderBoard(gBoard)
         expandShown(gBoard, elCell, i, j)
 
-        //*save move
-        gSaveMoves.push(copyMat(gBoard))
+
 
         //*add to the count of cell shown importent to determine if win
         ++gGame.shownCount
@@ -194,12 +211,20 @@ function onCellMarked(event, elCell, rowIdx, colIdx) {
 
         //*does not let you put more flags than mines
         if (gGame.markedCount === gLevel.MINES) {
-            if (gBoard[rowIdx][colIdx].isMarked)
+            if (gBoard[rowIdx][colIdx].isMarked) {
+                console.log('ji')
+                //*save move importent before updateing the modal
+                gSaveMoves.push(copyMat(gBoard))
                 gBoard[rowIdx][colIdx].isMarked = false
+            }
+            else return
         }
         //*update model
-        else
+        else {
+            //*save move importent before updateing the modal
+            gSaveMoves.push(copyMat(gBoard))
             gBoard[rowIdx][colIdx].isMarked = !gBoard[rowIdx][colIdx].isMarked
+        }
         if (gBoard[rowIdx][colIdx].isMarked)
             gGame.markedCount++
         else
@@ -216,12 +241,12 @@ function onCellMarked(event, elCell, rowIdx, colIdx) {
 //check if condition for winning met
 function checkGameOver() {
     if (gGame.markedCount !== gLevel.MINES) return
-    if (gGame.markedCount + gGame.shownCount
-        === gLevel.SIZE ** 2) {
+    if (gGame.shownCount
+        === gLevel.SIZE ** 2 - gLevel.MINES) {
         gGame.isOn = false
-        showModal()
-        const elWin = document.querySelector('.win')
-        elWin.classList.remove('hidden')
+        /*  showModal()
+         const elWin = document.querySelector('.win')
+         elWin.classList.remove('hidden') */
 
         const elRestart = document.querySelector('.restart')
         elRestart.innerHTML = WIN
@@ -273,29 +298,30 @@ function addMines(board) {
 
 }
 
-function onSetLevel(level) {
+function onSetLevel(event, level) {
 
     switch (level) {
-        case 1: {
+        case 'beginner': {
             gLevel.SIZE = 4
             gLevel.MINES = 2
             gLevel.LEVEL = 'beginner'
             break
         }
-        case 2: {
+        case 'medium': {
             gLevel.SIZE = 8
             gLevel.MINES = 14
             gLevel.LEVEL = 'medium'
             break
         }
-        case 3: {
+        case 'expert': {
             gLevel.SIZE = 12
             gLevel.MINES = 18
             gLevel.LEVEL = 'expert'
             break
         }
     }
-    onInit();
+    if (event)
+        onInit();
 }
 
 function updateTimer() {
@@ -326,6 +352,9 @@ function reset() {
         lives: 3,
         isHintMode: false,
         safe: 3,
+        darkmode: false,
+        customMode: false,
+        megaHint: false
     }
     const ellives = document.querySelectorAll('.live')
     ellives.forEach(live => {
@@ -338,6 +367,10 @@ function reset() {
     elHints.forEach(hint => {
         hint.classList.remove("used")
     });
+
+    //*return to defult values of a level
+    onSetLevel(null, gLevel.LEVEL)
+
     //* reset mark count left
     const elMarkCount = document.querySelector('.mark-count ')
     elMarkCount.innerHTML = gLevel.MINES - gGame.markedCount
@@ -345,6 +378,14 @@ function reset() {
     //* reset timer 
     const elTimer = document.querySelector('.timer')
     elTimer.innerHTML = 0;
+
+    //* reterive mega hint button
+    const elMegaHintButton = document.querySelector('.mega-hint-button')
+    elMegaHintButton.classList.remove("hidden")
+
+    //*reterive ExterButton
+    const elExterButton = document.querySelector('.exter-button')
+    elExterButton.classList.remove('hidden')
 
 
 }

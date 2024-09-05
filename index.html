@@ -4,13 +4,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sprint</title>
+    <title>Mine Sweeper</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
 </head>
 
 <body onload="onInit() ">
+    <h1>Mine Sweeper </h1>
     <div class="game">
-        <div class="control-panel">
+
+
+        <div class="buttons">
+
+            <button class="exter-button" onclick="onExterminator(this)">👽</button>
+            <button class="safe" onclick="onSafe()">🔦</button>
+            <button onclick="onCustomBoard()">⚒️</button>
+            <button class="darkmode" onclick="onDarkmodeToggle(this)">🌙</button>
+            <button class="mega-hint-button" onclick='onMegaHint()'>💡💡</button>
+
+
+        </div>
+
+
+
+        <div class="game-board">
+
+            <!-- <button onclick="onToggleHide()">hide/unhide</button> -->
+
+            <div class="inner-buttons">
+                <button onclick="onSetLevel(event,'beginner')">🐣</button>
+                <button onclick="onSetLevel(event,'medium')">🐥</button>
+                <button onclick="onSetLevel(event,'expert')">🦅</button>
+            </div>
+
+
             <table class="control-panel1">
                 <tbody>
                     <tr>
@@ -32,65 +59,63 @@
                 </tbody>
             </table>
 
-            <!-- <button onclick="onToggleHide()">hide/unhide</button> -->
-            <div>
-                <button onclick="onSetLevel(1)">🐣</button>
-                <button onclick="onSetLevel(2)">🐥</button>
-                <button onclick="onSetLevel(3)">🦅</button>
-
-            </div>
-            <div class="buttons">
-                <button class="safe" onclick="onSafe()">🔦</button>
+            <div class="inner-buttons">
                 <button class="restart" onclick="onInit()">😁</button>
-                <button class=undo onclick="onUndo()">⬅️</button>
             </div>
+
             <div>
-                <span>
-                    🔦:
-                    <span class="safe-count">
-                        3
+                <div class="custom hidden">
+                    💣 <span class="custom-count">0</span>
+                </div>
+                <div class="counts">
+                    <span>
+                        🔦:
+                        <span class="safe-count">
+                            3
+                        </span>
+                        |
                     </span>
-                    |
-                </span>
-                <span>🚩:
-                    <span class="mark-count"></span>
-                </span>
+                    <span>🚩:
+                        <span class="mark-count"></span>
+                    </span>
+                </div>
             </div>
+
+
+
+            <div class="board">
+                <table class="board-table">
+
+                </table>
+                <div class="timer">
+                    0
+                </div>
+            </div>
+
+
+        </div>
+        <div class="buttons">
+            <button class=undo onclick="onUndo()">⬅️</button>
         </div>
 
-        <div class="board">
-            <table class="board-table">
-
-            </table>
-            <div class="timer">
-                0
-            </div>
-        </div>
-        <div class="scoreboard">
-            <table>
+        <div class="scoreboard ">
+            <span>scoreboard</span>
+            <table class="scoreboard-table">
                 <thead>
-                    scoreboard
+
+                    <th>rank</th>
                     <th>name</th>
                     <th>time</th>
                 </thead>
                 <tbody>
-
                 </tbody>
             </table>
         </div>
-        <div class="modal">
-            <span class="win hidden">you win 😊</span>
-            <br>
-            <span class="lose hidden">you lose 😭</span>
-            <br>
-            <button onclick="onInit()">🔁</button>
-        </div>
+        <div class="footer">Ofer Koren</div>
+        <script src="js/bonus.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/main.js"></script>
     </div>
-
-    <div class="footer">Ofer Koren</div>
-    <script src="js/bonus.js"></script>
-    <script src="js/utils.js"></script>
-    <script src="js/main.js"></script>
 </body>
 
 </html>
