@@ -1,5 +1,9 @@
 
 'use strict'
+const SAFE = '🔦'
+const EXTER = '👽'
+const MEGA_HINT = '💡💡'
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -27,19 +31,18 @@ function toggleModal() {
     elModal.classList.toggle("hidden")
 }
 
-function hideModal() {
-    const elModal = document.querySelector('.modal')
-    const elWin = document.querySelector('.win')
-    const elLose = document.querySelector('.lose')
+function hideCustomModal() {
+    const elModal = document.querySelector('.custom-modal')
+    elModal.classList.add("used")
 
-    elModal.classList.add("hidden")
-    elWin.classList.add("hidden")
-    elLose.classList.add("hidden")
+
 }
 
-function showModal() {
-    const elModal = document.querySelector('.modal')
-    elModal.classList.remove("hidden")
+function showCustomModal() {
+    console.log("hi")
+    renderCustomValues()
+    const elModal = document.querySelector('.custom-modal')
+    elModal.classList.remove("used")
 }
 
 function copyMat(board) {
@@ -75,4 +78,99 @@ function getEmptyPos(board) {
     }
     var randIdx = getRandomInt(0, emptyPoss.length)
     return emptyPoss[randIdx]
+}
+
+function buttonClickedToggle(elBtn) {
+    const elButtons = document.querySelectorAll('.buttons button')
+    elButtons.forEach(button => {
+        if (button === elBtn) {
+            elBtn.classList.toggle("button-on")
+
+        }
+        else
+            button.classList.remove("button-on")
+    });
+}
+
+function highlightCurrLvL() {
+
+    const elLvls = document.querySelectorAll('.lvl-buttons button')
+    elLvls.forEach(button => {
+        if (button.classList.contains(gLevel.LEVEL)) {
+            button.classList.add("button-on")
+
+        }
+        else
+            button.classList.remove("button-on")
+
+    });
+}
+
+function onRandom(elBtn) {
+    elBtn.classList.toggle("not")
+    if (elBtn.classList.contains("not")) {
+        elBtn.innerText = 'Not Random'
+    }
+    else {
+        elBtn.innerText = 'Random'
+    }
+}
+
+function showCounts() {
+    const elCounts = document.querySelector('.counts')
+    const elCostum = document.querySelector('div.custom')
+
+    elCostum.classList.add("hidden")
+    elCounts.classList.remove("hidden")
+
+}
+
+function showMineCount() {
+    const elCounts = document.querySelector('.counts')
+    const elCostum = document.querySelector('div.custom')
+
+    elCostum.classList.remove("hidden")
+    elCounts.classList.add("hidden")
+}
+
+function onHoverInfo(elbtn) {
+    const elP = document.querySelector('.info-modal p')
+    if (elbtn.innerText === SAFE) {
+        if (gGame.isOn) {
+            elP.innerText = `-when clicked  show you a random safe spot-`
+        }
+        else {
+            elP.innerText = 'cant use safe click when game is not on'
+        }
+    }
+    else if (elbtn.innerText === MEGA_HINT) {
+        if (gGame.isOn) {
+            elP.innerText = `-press on two cells to see the area between them-\n One-Time-Use`
+        }
+        else {
+            elP.innerText = 'cant use mega hint when game is not on'
+        }
+    }
+    else if (elbtn.innerText === EXTER) {
+        if (gGame.isOn) {
+            elP.innerText = `-Remove 3 random bombs from the board-`
+        }
+        else {
+            elP.innerText = 'cant use the exterminator when game is not on'
+        }
+    }
+    else if (elbtn.classList.contains("hint")) {
+        if (gGame.isOn) {
+            elP.innerText = `click on a cell \nyou will see whats hidden in it and its neighbors`
+        }
+        else {
+            elP.innerText = `can't use hint when game is not on`
+        }
+    }
+
+}
+
+function onMouseOut() {
+    const elP = document.querySelector('.info-modal p')
+    elP.innerText = ''
 }

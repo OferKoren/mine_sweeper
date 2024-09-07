@@ -11,93 +11,146 @@
 
 <body onload="onInit() ">
     <h1>Mine Sweeper </h1>
-    <div class="game">
+    <div class="row-container">
+        <div class="custom-modal used">
+            <span>custom game</span>
+            <br>
+            <div>
+                <button class='not random' onclick="onRandom(this)">Not random</button>
+                <button onclick=onSetCustom()>set</button>
 
-
-        <div class="buttons">
-
-            <button class="exter-button" onclick="onExterminator(this)">👽</button>
-            <button class="safe" onclick="onSafe()">🔦</button>
-            <button onclick="onCustomBoard()">⚒️</button>
-            <button class="darkmode" onclick="onDarkmodeToggle(this)">🌙</button>
-            <button class="mega-hint-button" onclick='onMegaHint()'>💡💡</button>
-
-
-        </div>
-
-
-
-        <div class="game-board">
-
-            <!-- <button onclick="onToggleHide()">hide/unhide</button> -->
-
-            <div class="inner-buttons">
-                <button onclick="onSetLevel(event,'beginner')">🐣</button>
-                <button onclick="onSetLevel(event,'medium')">🐥</button>
-                <button onclick="onSetLevel(event,'expert')">🦅</button>
             </div>
 
-
-            <table class="control-panel1">
+            <table>
                 <tbody>
                     <tr>
-                        <td>
-                            <div class="lives">
-                                <span class="live live1">❤️</span>
-                                <span class="live live2">❤️</span>
-                                <span class="live live3">❤️</span>
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)" />
-                                <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)" />
-                                <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)" />
-                            </div>
-                        </td>
+                        <td>rows</td>
+                        <td>cols</td>
+                        <td>bombs</td>
+
                     </tr>
+                    <tr class="costum-values">
+                    </tr>
+
                 </tbody>
+
             </table>
 
-            <div class="inner-buttons">
-                <button class="restart" onclick="onInit()">😁</button>
-            </div>
+        </div>
+        <div class="game">
 
-            <div>
-                <div class="custom hidden">
-                    💣 <span class="custom-count">0</span>
-                </div>
-                <div class="counts">
-                    <span>
-                        🔦:
-                        <span class="safe-count">
-                            3
-                        </span>
-                        |
-                    </span>
-                    <span>🚩:
-                        <span class="mark-count"></span>
-                    </span>
-                </div>
+
+            <div class="buttons">
+
+                <button class="exter-button" onclick="onExterminator(this)" onmouseover='onHoverInfo(this)'
+                    onmouseleave="onMouseOut()">👽</button>
+                <button class="safe" onclick="onSafe(this)" onmouseover='onHoverInfo(this)'
+                    onmouseleave="onMouseOut()">🔦</button>
+                <button class="darkmode" onclick="onDarkmodeToggle(this)">🌙</button>
+                <button class="mega-hint-button" onclick='onMegaHint(this)' onmouseover='onHoverInfo(this)'
+                    onmouseleave="onMouseOut()">💡💡</button>
+
+
             </div>
 
 
 
-            <div class="board">
-                <table class="board-table">
+            <div class="game-board">
 
+                <!-- <button onclick="onToggleHide()">hide/unhide</button> -->
+                <div class='info-modal'>
+                    <p></p>
+                </div>
+                <span>levels</span>
+                <div class="lvl-buttons">
+                    <table class="lvl-buttons-table">
+                        <tbody>
+                            <tr>
+                                <td><button class="beginner" onclick="onSetLevel(event,'beginner')">🐣</button>
+                                </td>
+                                <td> <button class="medium" onclick="onSetLevel(event,'medium')">🐥</button> </td>
+                                <td> <button class="expert" onclick="onSetLevel(event,'expert')">🦅</button></td>
+                                <td><button class="custom" onclick="onSetLevel(event,'custom')">⚒️</button>
+                                    <!-- <button onclick="onCustomBoard(this)">⚒️</button> --></td>
+                            </tr>
+                            <tr>
+                                <td>Easy</td>
+                                <td>Medium</td>
+                                <td>Expert</td>
+                                <td>Custom</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+                <table class="control-panel1">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="lives">
+                                    <span class="live live1">❤️</span>
+                                    <span class="live live2">❤️</span>
+                                    <span class="live live3">❤️</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="hints">
+                                    <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this) "
+                                        onmouseover='onHoverInfo(this)' onmouseleave="onMouseOut()" />
+                                    <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)"
+                                        onmouseover='onHoverInfo(this)' onmouseleave="onMouseOut()" />
+                                    <img class="hint" src="img/hintOff.png" onclick="onToggleHint(this)"
+                                        onmouseover='onHoverInfo(this)' onmouseleave="onMouseOut()" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
-                <div class="timer">
-                    0
+
+                <div>
+                    <button class="restart" onclick="onInit()">😁</button>
                 </div>
+
+                <div>
+                    <div class="custom hidden">
+                        💣 <span class="custom-count">0</span>
+                    </div>
+                    <div class="counts">
+                        <span>
+                            🔦:
+                            <span class="safe-count">
+                                3
+                            </span>
+                            |
+                        </span>
+                        <span>🚩:
+                            <span class="mark-count"></span>
+                        </span>
+                    </div>
+                </div>
+
+
+
+                <div class="board">
+                    <table class="board-table">
+
+                    </table>
+                    <div class="timer">
+                        0
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="buttons">
+                <button class=undo onclick="onUndo()">⬅️</button>
             </div>
 
 
-        </div>
-        <div class="buttons">
-            <button class=undo onclick="onUndo()">⬅️</button>
-        </div>
 
+
+        </div>
         <div class="scoreboard ">
             <span>scoreboard</span>
             <table class="scoreboard-table">
@@ -111,11 +164,12 @@
                 </tbody>
             </table>
         </div>
-        <div class="footer">Ofer Koren</div>
-        <script src="js/bonus.js"></script>
-        <script src="js/utils.js"></script>
-        <script src="js/main.js"></script>
     </div>
+    <div class="footer">Ofer Koren</div>
+
+    <script src="js/bonus.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>

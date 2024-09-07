@@ -14,7 +14,11 @@ var gGame = {
 }
 const gLevel = {
     LEVEL: 'beginner',
-    SIZE: 4,
+    ROW: 4,
+    COL: 4,
+    get SIZE() {
+        return this.COL * this.ROW
+    },
     MINES: 2
 }
 const MINE = '💣'
@@ -28,12 +32,8 @@ var gIntervalTimer
 
 
 function onInit() {
-    // alert("lets go")
-
     reset()
-    // hideModal()
     BuildBoard()
-
     setMinesNegsCount(gBoard)
     renderBoard(gBoard)
 
@@ -47,9 +47,9 @@ function onInit() {
 //DONE seed BuildBoard
 function BuildBoard() {
     gBoard = []
-    for (var i = 0; i < gLevel.SIZE; i++) {
+    for (var i = 0; i < gLevel.ROW; i++) {
         gBoard[i] = []
-        for (var j = 0; j < gLevel.SIZE; j++) {
+        for (var j = 0; j < gLevel.COL; j++) {
             gBoard[i][j] = {
                 minesAroundCount: 0,
                 isShown: false,
@@ -127,9 +127,16 @@ function renderBoard(board) {
 function onCellClicked(elCell, i, j) {
     if (!gGame.isOn && gGame.lives > 0) {
         //* only enter this part if in manual mode
-        if (gGame.customMode) {
-            addCustomMine(gBoard, i, j)
-            return
+        if (gLevel.LEVEL === 'custom') {
+
+            if (gGame.customMode) {
+                const elRandom = document.querySelector('.random')
+                if (elRandom.classList.contains("not")) {
+                    addCustomMine(gBoard, i, j)
+                    return
+                }
+            }
+            else return
         }
         //* initiate game regularly after first click
         gGame.isOn = true
@@ -240,10 +247,11 @@ function onCellMarked(event, elCell, rowIdx, colIdx) {
 
 //check if condition for winning met
 function checkGameOver() {
-    if (gGame.markedCount !== gLevel.MINES) return
+    if (gGame.markedCount !== parseInt(gLevel.MINES)) return
     if (gGame.shownCount
-        === gLevel.SIZE ** 2 - gLevel.MINES) {
+        === gLevel.SIZE - gLevel.MINES) {
         gGame.isOn = false
+        gGame.customMode = false;
         /*  showModal()
          const elWin = document.querySelector('.win')
          elWin.classList.remove('hidden') */
@@ -299,29 +307,54 @@ function addMines(board) {
 }
 
 function onSetLevel(event, level) {
-
+    console.log(event)
     switch (level) {
         case 'beginner': {
-            gLevel.SIZE = 4
+            gLevel.ROW = 4
+            gLevel.COL = 4
             gLevel.MINES = 2
             gLevel.LEVEL = 'beginner'
+            gGame.customMode = false;
             break
         }
         case 'medium': {
-            gLevel.SIZE = 8
+            gLevel.ROW = 8
+            gLevel.COL = 8
             gLevel.MINES = 14
             gLevel.LEVEL = 'medium'
+            gGame.customMode = false;
             break
         }
         case 'expert': {
-            gLevel.SIZE = 12
+            gLevel.ROW = 12
+            gLevel.COL = 12
             gLevel.MINES = 18
             gLevel.LEVEL = 'expert'
+            gGame.customMode = false;
+
             break
         }
+        case 'custom': {
+            if (!gGame.isOn) {
+                gLevel.LEVEL = 'custom'
+                if (event)
+                    showCustomModal()
+                renderScoreboard("custom")
+            }
+            else {
+                if (gLevel.LEVEL !== 'modal') {
+                    const elP = document.querySelector('.info-modal p')
+                    elP.innerText = 'cant enter custom mode during a game'
+                    return
+                }
+            }
+        }
     }
-    if (event)
+    highlightCurrLvL()
+
+    if (event && gLevel.LEVEL !== 'custom') {
         onInit();
+    }
 }
 
 function updateTimer() {
@@ -353,7 +386,7 @@ function reset() {
         isHintMode: false,
         safe: 3,
         darkmode: false,
-        customMode: false,
+        customMode: gGame.customMode,
         megaHint: false
     }
     const ellives = document.querySelectorAll('.live')
@@ -363,7 +396,7 @@ function reset() {
     const elRestart = document.querySelector('.restart')
     elRestart.innerHTML = REGULAR
 
-    const elHints = document.querySelectorAll('.used')
+    const elHints = document.querySelectorAll('.hint.used')
     elHints.forEach(hint => {
         hint.classList.remove("used")
     });
@@ -374,6 +407,10 @@ function reset() {
     //* reset mark count left
     const elMarkCount = document.querySelector('.mark-count ')
     elMarkCount.innerHTML = gLevel.MINES - gGame.markedCount
+
+    //* reset hint count left
+    const elHintCount = document.querySelector('.safe-count ')
+    elHintCount.innerHTML = 3
 
     //* reset timer 
     const elTimer = document.querySelector('.timer')
@@ -387,5 +424,25 @@ function reset() {
     const elExterButton = document.querySelector('.exter-button')
     elExterButton.classList.remove('hidden')
 
+    //*reteriv safeButton
+    const elSafe = document.querySelector('.safe')
+    elSafe.classList.remove('used')
+
+    //*highlight the current level ()
+    highlightCurrLvL()
+    buttonClickedToggle(null)
+
+    //*clears info modal
+    const elP = document.querySelector('.info-modal p')
+    elP.innerText = ''
+
+    //*specific reset
+    if (gLevel.LEVEL === 'custom') {
+        onSetCustom()
+    }
+    else {
+        showCounts()
+        hideCustomModal()
+    }
 
 }
