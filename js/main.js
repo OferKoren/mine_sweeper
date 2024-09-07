@@ -148,6 +148,7 @@ function onCellClicked(elCell, i, j) {
         gIntervalTimer = setInterval(updateTimer, 1000)
     }
     if (gGame.isOn) {
+
         //  console.log(`i:${i} j:${j}`)
         //* check if game is on hintMode
         if (gGame.isHintMode) {
@@ -181,6 +182,12 @@ function onCellClicked(elCell, i, j) {
             elRestart.innerHTML = LOSE
             return
         }
+
+        //** does not do anything if its shown
+        if (gBoard[i][j].isShown) {
+            return
+        }
+
         //*save move importent before updateing the modal
         gSaveMoves.push(copyMat(gBoard))
 
